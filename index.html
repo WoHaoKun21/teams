@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板首页</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script>
+        $(function(){
+            //总记录数
+            var rscount=0;
+            //总页数
+            var pagecount=1;
+            //页码
+            var page=1;
+            //初始化总记录数和总页数--从后台获取总记录数，计算总页数 rscount.php提供总记录数接口
+            $.ajax({
+                url:"rscount.php",
+                type:"POST",
+                dataType:"json",
+                success:function(data){
+                    rscount=data.rscount;
+                    pagecount=Math.ceil(rscount/5);
+                }
+            })
+
+            //显示留言
+            $.ajax({
+                url:"message.php",
+                type:"POST",
+                data:{page:page},
+                dataType:"json",
+                cache:false,
+                success:function(data){
+                    var str="";
+                    if(data.status=="10001"){ //有留言
+                        $.each(data.data,function(index,value){
+                            str+='<img src="img/face/"'+value.face
+                            +'<div class="author">'+value.author+'</div>'
+                            +'<div class="addTime">'+value.addTime+'</div>'
+                            +'<ul><li class="title">标题：'+value.title+'</li>'
+                                +'<li class="content">内容：'+value.content+'</li>'
+                                +'<li class="reply">内容：'+value.reply+'</li></ul>'
+                                +'<div id="zan"><a href="javascript:;"></a>'
+                                +'<div id="zannum">'+zan+'</div>';
+                        })
+                        $("#main").html(str);
+                    }
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h3>留言板</h3>
+        <div id="main">
+
+        </div>
+        <div id="mask"></div> <!--遮罩层-->
+        <div id="message"></div><!--发表留言-->
+        <p>石鹏飞</p>
+    </div>
+</body>
+</html>
