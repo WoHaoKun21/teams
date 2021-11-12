@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>留言板首页--游客页</title>
-    <link rel="stylesheet" href="css/index.css">
-    <script src="js/jquery-1.11.0.min.js"></script>
+    <title>管理员页</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <script src="../js/jquery-1.11.0.min.js"></script>
     <script>
         $(function(){
             //总记录数
@@ -16,8 +16,21 @@
             //页码
             var page=1;
             //初始化总记录数和总页数--从后台获取总记录数，计算总页数 rscount.php提供总记录数接口
+			
+			//鉴权
+			$.ajax({
+				url:"../check.php",
+				type:"POST",
+				cache:false,
+				headers:{"token":localStorage.getItem("jwt")},
+				dataType:"json",
+				success:function(data){
+					if(data.result=="success"){ //鉴权成功，取数据
+						$("#adminName").html(data.info.data.userName);
+					
+			
             $.ajax({
-                url:"rscount.php",
+                url:"../rscount.php",
                 type:"POST",
                 dataType:"json",
                 success:function(data){
@@ -30,7 +43,7 @@
 
             //显示留言
             $.ajax({
-                url:"message.php",
+                url:"../message.php",
                 type:"POST",
 				data:{page,page},
                 dataType:"json",
@@ -39,7 +52,7 @@
                     var str="";
                     if(data.status=="10001"){ //有留言
                         $.each(data.data,function(index,value){
-                            str+='<div class="message" data-id='+value.messageId+'><img src="img/face/'+value.face+'" width="45">'
+                            str+='<div class="message" data-id='+value.messageId+'><img src="../img/face/'+value.face+'" width="45">'
                             +'<div class="author">'+value.author+'</div>'
                             +'<div class="addTime">'+value.addTime+'</div>'
                             +'<ul><li class="title">标题：'+value.title+'</li>'
@@ -67,14 +80,14 @@
 			$("#page a:first").click(function(){
 				page=1;
 				$.ajax({
-					url:"message.php",
+					url:"../message.php",
 					type:"POST",
 					data:{page:page},
 					dataType:"json",
 					success:function(data){
 						var str="";
 						$.each(data.data,function(index,value){
-							str+='<div class="message" data-id='+value.messageId+'><img src="img/face/'+value.face+'" width="45">'
+							str+='<div class="message" data-id='+value.messageId+'><img src="../img/face/'+value.face+'" width="45">'
 							+'<div class="author">'+value.author+'</div>'
 							+'<div class="addTime">'+value.addTime+'</div>'
 							+'<ul><li class="title">标题：'+value.title+'</li>'
@@ -111,13 +124,13 @@
 					}
 					if(page<=pagecount && flag){
 						$.ajax({
-							url:"message.php",
+							url:"../message.php",
 							type:"POST",
 							data:{page:page},
 							dataType:"json",
 							success:function(data){
 								$.each(data.data,function(index,value){
-								str+='<div class="message" data-id='+value.messageId+'><img src="img/face/'+value.face+'" width="45">'
+								str+='<div class="message" data-id='+value.messageId+'><img src="../img/face/'+value.face+'" width="45">'
 								+'<div class="author">'+value.author+'</div>'
 								+'<div class="addTime">'+value.addTime+'</div>'
 								+'<ul><li class="title">标题：'+value.title+'</li>'
@@ -156,13 +169,13 @@
 					}
 					if(page>=1 && flag1){
 						$.ajax({
-							url:"message.php",
+							url:"../message.php",
 							type:"POST",
 							data:{page:page},
 							dataType:"json",
 							success:function(data){
 								$.each(data.data,function(index,value){
-								str+='<div class="message" data-id='+value.messageId+'><img src="img/face/'+value.face+'" width="45">'
+								str+='<div class="message" data-id='+value.messageId+'><img src="../img/face/'+value.face+'" width="45">'
 								+'<div class="author">'+value.author+'</div>'
 								+'<div class="addTime">'+value.addTime+'</div>'
 								+'<ul><li class="title">标题：'+value.title+'</li>'
@@ -186,6 +199,11 @@
 				}
 				
 			});
+					}else{  //鉴权失败
+						location.href="../error.html";
+					}
+				}
+			});
 			
 			//点赞功能
 			function dianzan(){
@@ -193,7 +211,7 @@
 					var _this=$(this);//存储this对象
 					
 					$.ajax({
-						url:"zan_chuli.php",
+						url:"../zan_chuli.php",
 						type:"POST",
 						data:{messageId:_this.attr("data-id")},
 						dataType:"json",
@@ -221,7 +239,7 @@
 				//单击发布留言按钮-发送ajax
 				$("#fabubutton").click(function(){
 					$.ajax({
-						url:"leavemessage.php",
+						url:"../leavemessage.php",
 						type:"POST",
 						data:{author:$("#fbauthor").val(),title:$("#fbtitle").val(),content:$("#fbcontent").val,face:$("#face").val()},
 						dataType:"json",
@@ -255,101 +273,71 @@
 			}
 			$("#face").html(facestr).change(function(){
 				var _this=$(this);
-				$("#img1").attr("src","img/face/"+_this.val());
+				$("#img1").attr("src","../img/face/"+_this.val());
 			})
 
 
 			//登录页面
 				//显示页面
-			$("#nav a:eq(1)").click(function(){
-				$("#mask").show();
-				$("#login").show();
-				//关闭页面
-				$("#login .close").click(function(){
-					$("#mask").hide();
-					$("#login").hide();
-				})
-				//登录操作
-				$("#denglubutton").click(function(){
-					if($("#userName").val() && $("#password").val()){ //判断是否为空
-						//不为空发送ajax
-						$.ajax({
-							url:"check.php?action=login",
-							type:"POST",
-							data:{userName:$("#userName").val(),password:$("#password").val(),leixing:$("#login input:radio:checked").val()},
-							dataType:"json",
-							success:function(data){
-								if(data.result=="success"){
-									if($("#login input:radio:checked").val()=="1"){ //管理员
-										localStorage.setItem("jwt",data.jwt);
-										location.href="admin/adminindex.html";
-									}else{ //用户
-										localStorage.setItem("jwt",data.jwt);
-										location.href="usersindex.html";
-									}
-								}else{
-									alert(data.msg);
-									// alert("a");
-								}
-							}
-						})
-					}else{ //为空报错
-						alert("用户名或密码不能为空");
-					}
-				})
-			})
+			// $("#nav a:eq(1)").click(function(){
+			// 	$("#mask").show();
+			// 	$("#login").show();
+			// 	//关闭页面
+			// 	$("#login .close").click(function(){
+			// 		$("#mask").hide();
+			// 		$("#login").hide();
+			// 	})
+			// 	//登录操作
+			// 	$("#denglubutton").click(function(){
+			// 		if($("#userName").val() && $("#password").val()){ //判断是否为空
+			// 			//不为空发送ajax
+			// 			$.ajax({
+			// 				url:"../check.php?action=login",
+			// 				type:"POST",
+			// 				data:{userName:$("#userName").val(),password:$("#password").val(),leixing:$("#login input:radio:checked").val()},
+			// 				dataType:"json",
+			// 				success:function(data){
+			// 					if(data.result=="success"){
+			// 						if($("#login input:radio:checked").val()=="1"){ //管理员
+			// 							localStorage.setItem("jwt",data.jwt);
+			// 							location.href="admin/adminindex.html";
+			// 						}else{ //用户
+			// 							localStorage.setItem("jwt",data.jwt);
+			// 							location.href="usersindex.html";
+			// 						}
+			// 					}else{
+			// 						alert(data.msg);
+			// 					}
+			// 				}
+			// 			})
+			// 		}else{ //为空报错
+			// 			alert("用户名或密码不能为空");
+			// 		}
+			// 	})
+			// })
 
 			//到顶部
 			$("#nav a:last").click(function(){
-				// window.scrollTo(0,0);
 				$("html").animate({"scrollTop":"0px"},200);
 			})
 			
-			//在jwt有效时间内，可以不用登录直接进入管理页面
-			$("#nav a:eq(2)").click(function(){
-				$.ajax({
-					url:"check.php",
-					type:"POST",
-					cache:false,
-					headers:{"token":localStorage.getItem("jwt")},
-					dataType:"json",
-					success:function(data){
-						if(data.result=="success"){ //鉴权成功，取数据
-							location.href="admin/adminindex.html";
-						}else{
-							alert("请登录！");
-						}
-					}
-				});
-			});
+			//注销
+			$("#loginout").click(function(){
+				localStorage.removeItem("jwt");
+				location.href="../index.html";
+			})
 			
-			//在jwt有效时间内，可以不用登录直接进入用户页面
-			$("#nav a:eq(3)").click(function(){
-				$.ajax({
-					url:"check.php",
-					type:"POST",
-					cache:false,
-					headers:{"token":localStorage.getItem("jwt")},
-					dataType:"json",
-					success:function(data){
-						if(data.result=="success"){ //鉴权成功，取数据
-							location.href="usersindex.html";
-						}else{
-							alert("请登录！");
-						}
-					}
-				});
-			});
-			
-			
-			
-			
+			//返回游客页
+			$("#nav a:eq(1)").click(function(){
+				location.href="../index.html";
+			})
         })
     </script>
 </head>
 <body>
     <div class="container">
-        <h1>wuhahah留言板</h1>
+        <h1>wuhahah留言板--管理员首页</h1>欢迎管理员<span id="adminName"></span>登录
+		<a href="javascript:;" id="loginout">注销</a>
 <!--留言内容-->        
 		<div id="main"></div> 
 
@@ -357,9 +345,8 @@
 		<div id="nav">
 			<ul>
 				<li><a href="javascript:;">发表  留言</a></li>
-				<li><a href="javascript:;">我要  登录</a></li>
-				<li><a href="javascript:;">管理  页面</a></li>
-				<li><a href="javascript:;">用户  页面</a></li>
+				<li><a href="javascript:;">返回  游客</a></li>
+				<li><a href="javascript:;" style="color:#F00">全部  审核</a></li>
 				<li><a href="javascript:;">请求  帮助</a></li>
 				<li><a href="javascript:;">联系 我们</a></li>
 				<li><a class="top" href="javascript:;"><br>顶部</a></li>
@@ -410,7 +397,7 @@
 				</table>
 		</div>
 <!-- 登录页面 -->
-		<div id="login">
+		<!-- <div id="login">
 			<div class="close"><img src="img/关闭.png" width="15"></div>
 			<div class="comtitle">
 				<h1><img src="img/computer.png"><span>登  录</span></h1>
@@ -428,7 +415,7 @@
 				
 				<input type="submit" name="submit" id="denglubutton" value="登  录">
 			</div>
-		</div>
+		</div> -->
     </div>
 </body>
 </html>
