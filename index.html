@@ -307,38 +307,48 @@
 			
 			//在jwt有效时间内，可以不用登录直接进入管理页面
 			$("#nav a:eq(2)").click(function(){
-				$.ajax({
-					url:"check.php",
-					type:"POST",
-					cache:false,
-					headers:{"token":localStorage.getItem("jwt")},
-					dataType:"json",
-					success:function(data){
-						if(data.result=="success"){ //鉴权成功，取数据
-							location.href="admin/adminindex.html";
-						}else{
-							alert("请登录！");
+				var jwt=localStorage.getItem("jwt");
+				if(!!jwt){
+					$.ajax({
+						url:"check.php",
+						type:"POST",
+						cache:false,
+						headers:{"token":localStorage.getItem("jwt")},
+						dataType:"json",
+						success:function(data){
+							if(data.result=="success"){ //鉴权成功，取数据
+								location.href="admin/adminindex.html";
+							}else{
+								alert("请登录！");
+							}
 						}
-					}
-				});
+					});
+				}else{
+					alert("请登录");
+				}
 			});
 			
 			//在jwt有效时间内，可以不用登录直接进入用户页面
 			$("#nav a:eq(3)").click(function(){
-				$.ajax({
-					url:"check.php",
-					type:"POST",
-					cache:false,
-					headers:{"token":localStorage.getItem("jwt")},
-					dataType:"json",
-					success:function(data){
-						if(data.result=="success"){ //鉴权成功，取数据
-							location.href="usersindex.html";
-						}else{
-							alert("请登录！");
+				var jwt=localStorage.getItem("jwt");
+				if(!!jwt){
+					$.ajax({
+						url:"check.php",
+						type:"GET",
+						cache:false,
+						headers:{"token":localStorage.getItem("jwt")},
+						dataType:"json",
+						success:function(data){
+							if(data.result=="success"){ //鉴权成功，取数据
+								location.href="usersindex.html";
+							}else{
+								alert(data.msg);
+							}
 						}
-					}
-				});
+					});
+				}else{
+					alert("请登录");
+				}
 			});
 			
 			
