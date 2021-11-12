@@ -219,6 +219,34 @@
 					$("#mask").hide();
 					$(".fabu").hide();
 				})
+				//单击发布留言按钮-发送ajax
+				$("#fabubutton").click(function(){
+					$.ajax({
+						url:"leavemessage.php",
+						type:"POST",
+						data:{author:$("#fbauthor").val(),title:$("#fbtitle").val(),content:$("#fbcontent").val,face:$("#face").val()},
+						dataType:"json",
+						success:function(data){
+							if(data.status=="10001"){
+								$("#mask").hide();
+								$(".fabu").hide();
+								$("#fbauthor").val("");
+								$("#fbtitle").val("");
+								$("#fbcontent").val("");
+								$("#face").val("1.gif");
+								alert("发布成功，等待管理员审核");
+							}else{
+								alert(data.msg);
+							}
+						}
+					})
+				})
+				$("#qkbutton").click(function(){
+					$("#fbauthor").val("");
+					$("#fbtitle").val("");
+					$("#fbcontent").val("");
+					$("#face").val("1.gif");
+				})
 			})
 			
 				//头像
@@ -284,9 +312,9 @@
 					</tr>
 					<tr align="center">
 						<td colspan="2">
-							<input type="reset" value="清空内容" class="sub res">
+							<input type="reset" value="清空内容" class="sub res" id="qkbutton">
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type="submit" value="发布留言" class="sub">
+							<input type="submit" value="发布留言" class="sub" id="fabubutton">
 						</td>
 					</tr>
 				</table>

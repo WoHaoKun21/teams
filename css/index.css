@@ -6,10 +6,6 @@ body{
 	font:14px/1.5em 微软雅黑;
 	color:#222;
 	background-color: #f4f4f4;
-	/* background-color:#E0FFFF; */
-	/* background: url("../img/1.gif"); */
-	/* background-size: cover; */
-	/* background-attachment:fixed; */
 }
 div.container{
 	width:800px;
@@ -17,7 +13,7 @@ div.container{
 	position:relative;
 }
 div.container h1{
-	color:#ffffff;
+	color:#1a0303;
 	margin:10px 0px 18px 0px;
 	text-align: center;
 }
@@ -31,9 +27,7 @@ div.container h1{
 	list-style: none;
 }
 #nav ul li{
-	/* border:1px solid  #00FF00; */
 	background-color: #fff;
-	/* padding:5px; */
 }
 #nav li a{
 	display: block;
@@ -55,11 +49,9 @@ div.container h1{
 
 /* public */
 #main div.message{
-	/* list-style-type: none; */
 	border: 1px solid #483D8B;
 	background-color: #ffffff;
 	background-attachment:fixed;
-	/* background-color:#E0FFFF; */
 	opacity: 0.9;
 	border-radius: 10px;
 	margin-bottom:10px;
@@ -99,38 +91,24 @@ div.message ul li.content{
 	text-indent: 3em;
 }
 div.message ul li.reply{
-	/* background-color: #E6E6FA; */
-	/* background-color: #DDA0DD; */
-	/* opacity: 0.3; */
 	color:#000080;
 	margin:0px 20px 10px 20px;
 	border-radius: 7px;
 }
 div.message .zan{
-	background: url(../img/赞.png) no-repeat;
-	/* float:left; */
+	background: url(../img/zan.png) no-repeat;
 	background-size: 32px;
-	/* width:50px;
-	height:50px; */
 	width:30px;
 	height:29px;
-	/* border:1px solid #f00; */
 	position:absolute;
 	top:15px;
 	left:709px;
-	/* cursor: pointer; */
 }
-/* div.message #zan a{
-	width:28px;
-	height:27px;
-	display:block;
-} */
 div.message .zan:hover{
-	background: url(../img/点赞.png) no-repeat;
+	background: url(../img/dianzan.png) no-repeat;
 	background-size: 36px;
 	width:50px;
 	height:50px;
-	/* border:1px solid #f00; */
 	position:absolute;
 	top:15px;
 	left:709px;
@@ -138,10 +116,8 @@ div.message .zan:hover{
 	cursor: pointer;
 }
 div.message .zannum{
-	/* float:left; */
 	width:20px;
 	height:20px;
-	/* border:1px solid #f00; */
 	position:absolute;
 	top:21px;
 	left:747px;
@@ -164,9 +140,7 @@ div.nav{
 /* 发表留言 */
 div.fabu{
 	border:1px solid #a8a2cb;
-	/* color:#ffffff; */
 	background-color: #ffffff;
-	/* opacity: 0.9; */
 	border-radius: 10px;
 	margin-bottom:10px;
 	padding-left:10px;
@@ -186,9 +160,6 @@ div.fabu h3{
 	padding-top:10px;
 }
 div.close{
-	/* background: url(../img/关闭.png) no-repeat; */
-	/* background-size: 15px; */
-	/* border:1px solid #f00; */
 	text-align: center;
 	width: 15px;
 	height: 15px;
@@ -227,7 +198,6 @@ div.fabu input.res{
 	margin-left:50px;
 }
 table input[type=text],table textarea,table select{
-	/* background-color: #FFFACD;*/
 	background-color:#E0FFFF;
 	border:1px solid #8470FF;
 	padding:2px;
