@@ -1,8 +1,235 @@
+body,ul,p,h1,h2,h3,h4,h5,h6{
+	margin:0px;
+	padding:0px;
+}
 body{
-    margin: 0px;
-    padding: 0px;
+	font:14px/1.5em 微软雅黑;
+	color:#222;
+	background-color: #f4f4f4;
+	/* background-color:#E0FFFF; */
+	/* background: url("../img/1.gif"); */
+	/* background-size: cover; */
+	/* background-attachment:fixed; */
 }
 div.container{
-    width: 800px;
-    margin:0px auto;
+	width:800px;
+	margin:0px auto;
+	position:relative;
+}
+div.container h1{
+	color:#ffffff;
+	margin:10px 0px 18px 0px;
+	text-align: center;
+}
+#nav{
+	width: 55px;
+	position:fixed;
+	top:170px;
+	right:100px;
+}
+#nav ul{
+	list-style: none;
+}
+#nav ul li{
+	/* border:1px solid  #00FF00; */
+	background-color: #fff;
+	/* padding:5px; */
+}
+#nav li a{
+	display: block;
+	width: 45px;
+	height: 45px;
+	text-align: center;
+	padding:5px 5px 4px 5px;
+	color:#333;
+	text-decoration: none;
+	border-bottom:1px solid #F0F8FF;
+}
+#nav li a:hover,#nav li a.top:hover{
+	background-color: #87CEFA;
+}
+#nav li a.top{
+	background:url(../img/top.png) no-repeat 14px 4px;
+	background-size: 27px;
+}
+
+/* public */
+#main div.message{
+	/* list-style-type: none; */
+	border: 1px solid #483D8B;
+	background-color: #ffffff;
+	background-attachment:fixed;
+	/* background-color:#E0FFFF; */
+	opacity: 0.9;
+	border-radius: 10px;
+	margin-bottom:10px;
+	padding:7px 7px 5px 0px;
+	position:relative;
+}
+div.message img{
+	padding-left:10px;
+}
+div.message ul{
+	list-style: none;
+}
+div.message ul li{
+	line-height: 30px;
+	padding-left:10px;
+}
+div.message div.author{
+	float:left;
+	position: absolute;
+	top:4px;
+	left:65px;
+	color:#8470FF;
+}
+div.message div.addTime{
+	float:left;
+	display: block;
+	position: absolute;
+	top:33px;
+	left:65px;
+	font-size:12px;
+	color:#87CEFA;
+}
+div.message ul li.title{
+	font-weight: 800;
+}
+div.message ul li.content{
+	text-indent: 3em;
+}
+div.message ul li.reply{
+	/* background-color: #E6E6FA; */
+	/* background-color: #DDA0DD; */
+	/* opacity: 0.3; */
+	color:#000080;
+	margin:0px 20px 10px 20px;
+	border-radius: 7px;
+}
+div.message .zan{
+	background: url(../img/赞.png) no-repeat;
+	/* float:left; */
+	background-size: 32px;
+	/* width:50px;
+	height:50px; */
+	width:30px;
+	height:29px;
+	/* border:1px solid #f00; */
+	position:absolute;
+	top:15px;
+	left:709px;
+	/* cursor: pointer; */
+}
+/* div.message #zan a{
+	width:28px;
+	height:27px;
+	display:block;
+} */
+div.message .zan:hover{
+	background: url(../img/点赞.png) no-repeat;
+	background-size: 36px;
+	width:50px;
+	height:50px;
+	/* border:1px solid #f00; */
+	position:absolute;
+	top:15px;
+	left:709px;
+	transition: all 0.4s;
+	cursor: pointer;
+}
+div.message .zannum{
+	/* float:left; */
+	width:20px;
+	height:20px;
+	/* border:1px solid #f00; */
+	position:absolute;
+	top:21px;
+	left:747px;
+	color:#8a8a8a;
+}
+div.nav{
+	border:1px solid #f00;
+}
+#mask{
+	position:fixed;
+	top:0px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	background-color: #000;
+	opacity: 0.3;
+	display: none;
+	
+}
+/* 发表留言 */
+div.fabu{
+	border:1px solid #a8a2cb;
+	/* color:#ffffff; */
+	background-color: #ffffff;
+	/* opacity: 0.9; */
+	border-radius: 10px;
+	margin-bottom:10px;
+	padding-left:10px;
+	padding-bottom:10px;
+	width: 488px;
+	height: 294px;
+	display: none;
+	position:fixed;
+	top:50%;
+	left:50%;
+	margin-left:-244px;
+	margin-top:-147px;
+	z-index:2;
+}
+div.fabu h3{
+	text-align: center;
+	padding-top:10px;
+}
+div.close{
+	/* background: url(../img/关闭.png) no-repeat; */
+	/* background-size: 15px; */
+	/* border:1px solid #f00; */
+	text-align: center;
+	width: 15px;
+	height: 15px;
+	padding:3px;
+	position:absolute;
+	top:13px;
+	right:17px;
+}
+div.close:hover{
+	background-color: #D3D3D3;
+	border-radius: 21px;
+}
+div.fabu input[type=text]{
+	height:18px;
+}
+div.fabu input.title{
+	width:347px;
+}
+div.fabu textarea{
+	width:347px;
+	height:100px;
+	resize: none;
+}
+div.fabu input.sub{
+	width:100px;
+	height:30px;
+	background-color: #8470FF;
+	color:#ffffff;
+	border:none;
+	cursor:pointer;
+	font-size:14px;
+	border-radius: 7px;
+	margin-top:5px;
+}
+div.fabu input.res{
+	margin-left:50px;
+}
+table input[type=text],table textarea,table select{
+	/* background-color: #FFFACD;*/
+	background-color:#E0FFFF;
+	border:1px solid #8470FF;
+	padding:2px;
+	border-radius: 5px;
 }

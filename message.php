@@ -3,7 +3,7 @@ header("content-type:text/html;charset=utf-8");
 if($_SERVER['REQUEST_METHOD']=="POST"){
    $page=$_POST['page'];
    include("conn.php");
-   $rs=mysql_query('select * from message where flag=1 order by addTime desc limit '.(($page-1)*5).',5');
+   $rs=mysql_query('select * from messagelz where sh=1 order by addTime desc limit '.(($page-1)*5).',5');
    
    $json='{"status":"10001","msg":"success","data":[';
    $num=mysql_num_rows($rs);

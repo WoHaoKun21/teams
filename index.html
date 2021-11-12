@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>留言板首页</title>
     <link rel="stylesheet" href="css/index.css">
+	<!-- <link rel="stylesheet" href="css/public.css"> -->
     <script src="js/jquery-1.11.0.min.js"></script>
     <script>
         $(function(){
@@ -23,6 +24,8 @@
                 success:function(data){
                     rscount=data.rscount;
                     pagecount=Math.ceil(rscount/5);
+					$("#page .dangqian").text(page);
+					$("#page .all").text(pagecount);
                 }
             })
 
@@ -30,37 +33,265 @@
             $.ajax({
                 url:"message.php",
                 type:"POST",
-                data:{page:page},
+				data:{page,page},
                 dataType:"json",
                 cache:false,
                 success:function(data){
                     var str="";
                     if(data.status=="10001"){ //有留言
                         $.each(data.data,function(index,value){
-                            str+='<img src="img/face/"'+value.face
+                            str+='<div class="message" data-id='+value.messageId+'><img src="img/face/'+value.face+'" width="45">'
                             +'<div class="author">'+value.author+'</div>'
                             +'<div class="addTime">'+value.addTime+'</div>'
                             +'<ul><li class="title">标题：'+value.title+'</li>'
-                                +'<li class="content">内容：'+value.content+'</li>'
-                                +'<li class="reply">内容：'+value.reply+'</li></ul>'
-                                +'<div id="zan"><a href="javascript:;"></a>'
-                                +'<div id="zannum">'+zan+'</div>';
+                                +'<li class="content">'+value.content+'</li>';
+								if(value.reply){
+									str+='<li class="reply">管理员回复：'+value.reply+'</li></ul>'
+									+'<div class="zan" data-id='+value.messageId+'></div>'
+									+'<div class="zannum">'+value.zan+'</div></div>';
+								}else{
+									str+='</ul><div class="zan" data-id='+value.messageId+'></div>'
+										+'<div class="zannum">'+value.zan+'</div></div>';
+								}
+                                // +'<li class="reply2">回复：'+value.reply2+'</li></ul>' //哪个用户回复
                         })
                         $("#main").html(str);
-                    }
+						dianzan();//调用点赞功能
+                    }else{
+						str+=data.msg;
+                        $("#main").html(str);
+					}
                 }
             })
+
+			//首页
+			$("#page a:first").click(function(){
+				page=1;
+				$.ajax({
+					url:"message.php",
+					type:"POST",
+					data:{page:page},
+					dataType:"json",
+					success:function(data){
+						var str="";
+						$.each(data.data,function(index,value){
+							str+='<div class="message" data-id='+value.messageId+'><img src="img/face/'+value.face+'" width="45">'
+							+'<div class="author">'+value.author+'</div>'
+							+'<div class="addTime">'+value.addTime+'</div>'
+							+'<ul><li class="title">标题：'+value.title+'</li>'
+							+'<li class="content">'+value.content+'</li>';
+							if(value.reply){
+								str+='<li class="reply">管理员回复：'+value.reply+'</li></ul>'
+								+'<div class="zan" data-id='+value.messageId+'></div>'
+								+'<div class="zannum">'+value.zan+'</div></div>';
+							}else{
+								str+='</ul><div class="zan" data-id='+value.messageId+'></div>'
+									+'<div class="zannum">'+value.zan+'</div></div>';
+								}
+								// +'<li class="reply2">回复：'+value.reply2+'</li></ul>' //哪个用户回复
+							})
+						$("#main").html(str);
+						$("#page .dangqian").text(page);
+						dianzan();//调用点赞功能
+					}
+				})
+				
+			});
+			
+			//下一页
+			var flag=true; //当页数page大于等于最大页数pagecount后，不允许发送ajax请求
+			$("#page a:last").click(function(){
+				var str="";
+				if(page>pagecount){  //如果页数page大于总页数pagecount
+					page=pagecount;
+				}else{
+					if(page<pagecount){  //页数page小于总页数pagecount
+						page=page+1;
+					}else{  //如果页数page等于总页数pagecount，就不发送ajax请求了
+						flag=false;
+					}
+					if(page<=pagecount && flag){
+						$.ajax({
+							url:"message.php",
+							type:"POST",
+							data:{page:page},
+							dataType:"json",
+							success:function(data){
+								$.each(data.data,function(index,value){
+								str+='<div class="message" data-id='+value.messageId+'><img src="img/face/'+value.face+'" width="45">'
+								+'<div class="author">'+value.author+'</div>'
+								+'<div class="addTime">'+value.addTime+'</div>'
+								+'<ul><li class="title">标题：'+value.title+'</li>'
+									+'<li class="content">'+value.content+'</li>';
+									if(value.reply){
+										str+='<li class="reply">管理员回复：'+value.reply+'</li></ul>'
+										+'<div class="zan" data-id='+value.messageId+'></div>'
+										+'<div class="zannum">'+value.zan+'</div></div>';
+									}else{
+										str+='</ul><div class="zan" data-id='+value.messageId+'></div>'
+											+'<div class="zannum">'+value.zan+'</div></div>';
+									}
+									// +'<li class="reply2">回复：'+value.reply2+'</li></ul>' //哪个用户回复
+								})
+							$("#main").html(str);
+							$("#page .dangqian").text(page);
+							dianzan();//调用点赞功能
+							}
+						})
+					}
+				}
+				
+			});
+
+			//上一页
+			var flag1=true; //当页数page小于等于1后，不允许发送ajax请求
+			$("#page a:eq(1)").click(function(){
+				var str="";
+				if(page<1){  //如果页数page大于总页数pagecount
+					page=1;
+				}else{
+					if(page>1){  //页数page小于总页数pagecount
+						page=page-1;
+					}else{  //如果页数page等于总页数pagecount，就不发送ajax请求了
+						flag1=false;
+					}
+					if(page>=1 && flag1){
+						$.ajax({
+							url:"message.php",
+							type:"POST",
+							data:{page:page},
+							dataType:"json",
+							success:function(data){
+								$.each(data.data,function(index,value){
+								str+='<div class="message" data-id='+value.messageId+'><img src="img/face/'+value.face+'" width="45">'
+								+'<div class="author">'+value.author+'</div>'
+								+'<div class="addTime">'+value.addTime+'</div>'
+								+'<ul><li class="title">标题：'+value.title+'</li>'
+									+'<li class="content">'+value.content+'</li>';
+									if(value.reply){
+										str+='<li class="reply">管理员回复：'+value.reply+'</li></ul>'
+										+'<div class="zan" data-id='+value.messageId+'></div>'
+										+'<div class="zannum">'+value.zan+'</div></div>';
+									}else{
+										str+='</ul><div class="zan" data-id='+value.messageId+'></div>'
+											+'<div class="zannum">'+value.zan+'</div></div>';
+									}
+									// +'<li class="reply2">回复：'+value.reply2+'</li></ul>' //哪个用户回复
+								})
+							$("#main").html(str);
+							$("#page .dangqian").text(page);
+							dianzan();//调用点赞功能
+							}
+						})
+					}
+				}
+				
+			});
+			
+			//点赞功能
+			function dianzan(){
+				$(".zan").click(function(){
+					var _this=$(this);//存储this对象
+					
+					$.ajax({
+						url:"zan_chuli.php",
+						type:"POST",
+						data:{messageId:_this.attr("data-id")},
+						dataType:"json",
+						success:function(data){
+							if(data.status=="10001"){
+								_this.next().text(data.data.zan);
+							}else{
+								alert(data.msg);
+							}
+						}
+					})
+				
+				})
+			}
+
+			//发布留言
+			$("#nav a:first").click(function(){
+				$("#mask").show();
+				$(".fabu").show();
+				//关闭留言面板
+				$(".fabu .close").click(function(){
+					$("#mask").hide();
+					$(".fabu").hide();
+				})
+			})
+			
+				//头像
+			var facestr="";
+			for(var i=1;i<=42;i++){
+				facestr+='<option value='+i+".gif>"+i+".gif</option>";
+			}
+			$("#face").html(facestr).change(function(){
+				var _this=$(this);
+				$("#img1").attr("src","img/face/"+_this.val());
+			})
+			
         })
     </script>
 </head>
 <body>
     <div class="container">
-        <h3>留言板</h3>
-        <div id="main">
+        <h1>wuhahah留言板</h1>
+        <div id="main"></div> <!--留言内容-->
+		<div id="nav">
+			<ul>
+				<li><a href="javascript:;">发表  留言</a></li>
+				<li><a href="javascript:;">普通  登录</a></li>
+				<li><a href="javascript:;">管理员登录</a></li>
+				<li><a href="javascript:;">联系 我们</a></li>
+				<li><a class="top" href="javascript:;"><br>顶部</a></li>
+			</ul>
+		</div>
 
-        </div>
+		<div id="page">
+			<a href="javascript:;">首页</a>
+			<a href="javascript:;">上一页</a>
+			<a href="javascript:;">下一页</a>
+			共<span class="dangqian"></span>/<span class="all"></span>页
+		</div>
+
         <div id="mask"></div> <!--遮罩层-->
-        <div id="message"></div><!--发表留言-->
+
+        <div class="fabu"><!--发表留言-->
+			<h3>快来发布留言吧！</h3>
+			<div class="close"><img src="img/关闭.png" width="15"></div>
+				<table>
+					<tr>
+						<td>头像：</td>
+						<td>
+							<select id="face">
+
+							</select>
+							<img src="img/face/1.gif" id="img1" width="45">
+						</td>
+					</tr>
+					<tr>
+						<td>发布者：</td>
+						<td><input type="text" id="fbauthor"></td>
+					</tr>
+					<tr>
+						<td>标题：</td>
+						<td><input type="text" id="fbtitle" class="title"></td>
+					</tr>
+					<tr>
+						<td>内容：</td>
+						<td><textarea id="fbcontent" cols="30" rows="10"></textarea></td>
+					</tr>
+					<tr align="center">
+						<td colspan="2">
+							<input type="reset" value="清空内容" class="sub res">
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="submit" value="发布留言" class="sub">
+						</td>
+					</tr>
+				</table>
+
+		</div>
     </div>
 </body>
 </html>
