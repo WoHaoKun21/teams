@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>管理员页面</title>
+	<link rel="stylesheet" type="text/css" href="css/adminindex.css"/>
+	<script src="js/jquery-1.11.0.min.js"></script>
+	<script>
+		$(function(){
+			$.ajax({
+				url:"admindata.php?action=login",
+				type:"POST",
+				dataType:"json",
+				success:function(data){
+					console.log(data);
+					if(data.status == "10001"){
+						data = data.data;
+						var str = "<div class='spf_banner'><img src='img/img.jpg'></div><ul>";
+						// 对数据进行遍历
+						for(var i=0 in data){
+							str += "<li><p>用户[<span class='spf_author'>" + data[i].author+"</span>]"
+											+ "<img src='img/face/"+data[i].face+"' class='spf_img'>"
+											+" 时间：<span class='spf_time'>"+ data[i].upTime+"</span></p>"
+											
+											+"<p class='spf_title'>标题："+ data[i].title+"</p>"
+											+"内容：<p class='spf_content'>"+data[i].content+"</p>";
+							if(data[i].reply){
+								str+="<p class='spf_reply'>管理员回复："+data[i].reply+"</p>";
+							}
+							if(data[i].sh == 1){
+								str+="<div class='spf_set'><a data-href="+data[i].messageId+" id='a1'>已审核</a> |";
+							}else{
+								str+="<div class='spf_set'><a data-href="+data[i].messageId+" id='a1'>未审核</a> |";
+							}
+							str+=" <a data-href="+data[i].messageId+" id='a2'>删除</a> | <a data-href="+data[i].messageId+" id='a3'>回复</a></div>"
+									+"<p class='spf_dz'>已获得<a href="+data[i].messageId+"> "+data[i].dz+" </a>赞</p>"
+						}
+						// 输出信息
+						$("#spf_container").html(str+"</ul>");
+					}
+				}
+			});
+			
+			var pageo = $("#onPage").attr("data-href");// 上一页
+			var paged = $("#downPage").attr("data-href");// 下一页
+			// 点击进入下一页
+			$("#downPage").click(function(){
+				paged = parseFloat(paged)+1;
+				pageo = parseInt(pageo)+1;
+				// paged = $("#downPage").attr("data-href",paged);
+				// pageo = $("#onPage").attr("data-href",pageo);
+				$.ajax({
+					url:"admindata.php?action=login&page="+paged,
+					dataType:"json",
+					type:"POST",
+					success:function(data){
+						console.log(data);
+						if(data.status == "10001"){
+							data = data.data;
+							// 将页数进行规定
+							var str = "<div class='spf_banner'><img src='img/img.jpg'></div><ul>";
+							// 对数据进行遍历
+							for(var i=0 in data){
+								str += "<li><p>用户[<span class='spf_author'>" + data[i].author+"</span>]"
+												+ "<img src='img/face/"+data[i].face+"' class='spf_img'>"
+												+" 时间：<span class='spf_time'>"+ data[i].upTime+"</span></p>"
+												
+												+"<p class='spf_title'>标题："+ data[i].title+"</p>"
+												+"内容：<p class='spf_content'>"+data[i].content+"</p>";
+								if(data[i].reply){
+									str+="<p class='spf_reply'>管理员回复："+data[i].reply+"</p>";
+								}
+								if(data[i].sh == 1){
+									str+="<div class='spf_set'><a data-href="+data[i].messageId+" id='a1'>已审核</a> |";
+								}else{
+									str+="<div class='spf_set'><a data-href="+data[i].messageId+" id='a1'>未审核</a> |";
+								}
+								str+=" <a data-href="+data[i].messageId+" id='a2'>删除</a> | <a data-href="+data[i].messageId+" id='a3'>回复</a></div>"
+										+"<p class='spf_dz'>已获得<a href="+data[i].messageId+"> "+data[i].dz+" </a>赞</p>"
+							}
+							// 输出信息
+							$("#spf_container").html(str+"</ul>");
+						}
+					}
+				})
+			});
+		})
+	</script>
+</head>
+<body>
+	<div id="spf_container">
+		
+	</div>
+	<footer>
+		<a data-href="1" id="onPage">上一页</a> |
+		<a data-href="1" id="downPage">下一页</a>
+	</footer>
+</body>
+</html>
