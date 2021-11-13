@@ -1,4 +1,5 @@
 <?php
+// 首页显示留言接口
 header("content-type:text/html;charset=utf-8");
 if($_SERVER['REQUEST_METHOD']=="POST"){
    $page=$_POST['page'];
@@ -17,6 +18,6 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 	   }	
 	
 }else{
-	header("location:error.php");
+	header("location:error.html");
 }
 ?>
