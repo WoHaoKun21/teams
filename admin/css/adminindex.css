@@ -8,6 +8,14 @@ a{
 	cursor: pointer;
 	text-decoration: none;
 }
+a.dz{
+	padding-left: 16px;
+	background: url(../img/z_1.png) no-repeat 0px 2px;
+}
+a.dz:hover{
+	padding-left: 16px;
+	background: url(../img/z_2.png) no-repeat 0px 2px;
+}
 img{
 	vertical-align: top;
 }
@@ -20,7 +28,7 @@ div.spf_banner{
 }
 div#spf_container li{
 	border: 1px solid #fa0;
-	width: 37rem;
+	width: 61rem;
 	margin-bottom: 1.25rem;
 	border-radius: 5px;
 	padding: 0.625rem;
@@ -51,3 +59,143 @@ footer{
 	padding: 10px;
 }
 
+/* 将隐藏的对话框进行显示 */
+div#reply{
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	background-color: rgba(0,0,0,0.4);
+	display: none;
+}
+div#reply form{
+	width: 400px;
+	height: 145px;
+	padding-top: 60px;
+	border-radius: 10px;
+	background-color: #F0AD4E;
+	text-align: center;
+	position: relative;
+	top: 30%;
+	left: 38%;
+	border: 1px solid #F0AD4E;
+}
+div#reply form textarea{
+	border-radius: 5px;
+}
+div#reply form input[type="button"]{
+	width: 60px;
+	height: 30px;
+	margin-top: 10px;
+	border-radius: 2px;
+	border: none;
+	background-color: #F7E1B5;
+}
+
+
+/* 导航栏开始 */
+div#nav{
+	width: 55px;
+	border: 1px solid #CCCCCC;
+	position: fixed;
+	right: 50px;
+	top: 30%;
+}
+div#nav ul li{
+	padding: 5px;
+	text-align: center;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+}
+div#nav ul li:hover{
+	background-color: #09f;
+}
+div#nav li a{
+	display: block;
+	color: #550000;
+}
+div#nav li a:hover{
+	color: #fff;
+}
+/* 导航栏结束 */
+
+/* 发布留言样式开始 */
+div.liuyan{
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	background-color: rgba(0,0,0,0.4);
+	display: none;
+}
+div.fabu{
+	border:1px solid #a8a2cb;
+	background-color: #ffffff;
+	border-radius: 10px;
+	margin-bottom:10px;
+	padding-left:10px;
+	padding-bottom:10px;
+	width: 488px;
+	/* display: none; */
+	position:fixed;
+	top:45%;
+	left:50%;
+	margin-left:-244px;
+	margin-top:-147px;
+	z-index:2;
+}
+div.fabu h3{
+	text-align: center;
+	padding-top:10px;
+}
+div.close{
+	text-align: center;
+	width: 15px;
+	height: 15px;
+	padding:3px;
+	position:absolute;
+	top:13px;
+	right:17px;
+}
+div.close:hover{
+	background-color: #D3D3D3;
+	border-radius: 21px;
+}
+div.fabu input[type=text]{
+	height:18px;
+}
+div.fabu input.title{
+	width:327px;
+}
+div.fabu textarea{
+	width:327px;
+	height:100px;
+	resize: none;
+}
+div.fabu input.sub{
+	width:100px;
+	height:30px;
+	background-color: #8470FF;
+	color:#ffffff;
+	border:none;
+	cursor:pointer;
+	font-size:14px;
+	border-radius: 7px;
+	margin-top:5px;
+}
+div.fabu input.res{
+	margin-left:50px;
+}
+table input[type=text],table textarea,table select{
+	background-color:#E0FFFF;
+	border:1px solid #8470FF;
+	padding:2px;
+	border-radius: 5px;
+}
+div.fabu form table td span:last-child{
+	color: #f00;
+	font-size: 12px;
+}
+/* 发布留言样式结束 */
