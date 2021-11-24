@@ -9,7 +9,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
    $json='{"status":"10001","msg":"success","data":[';
    $num=mysql_num_rows($rs);
    if($num>0){
-      while($info=mysql_fetch_array($rs,MYSQL_ASSOC)){
+      while($info=mysql_fetch_assoc($rs)){
 	    $json.=json_encode($info).",";  
        }
 	   echo substr($json,0,strlen($json)-1)."]}";

@@ -2,6 +2,12 @@ ul,li,body,p,div{
 	margin: 0px;
 	padding: 0px;
 	list-style: none;
+	/* font:16px/1.6em 方正舒体; */
+}
+body{
+	color:#222;
+	background-color: #e5e5e5;
+	font:14px/2.2em 微软雅黑;
 }
 a{
 	color: #00f;
@@ -26,18 +32,21 @@ div#spf_container,footer,div.spf_container>div.spf_banner{
 div.spf_banner{
 	margin-bottom: 20px;
 }
+div.spf_banner img{
+	border-radius: 15px;
+}
 div#spf_container li{
-	border: 1px solid #fa0;
+	border: 1px solid #000000;
 	width: 61rem;
-	margin-bottom: 1.25rem;
-	border-radius: 5px;
+	margin-bottom: 1.85rem;
+	border-radius: 10px;
 	padding: 0.625rem;
 	box-shadow: 10px 10px 20px #000000;
 	overflow: hidden;
 }
 div#spf_container li p img.spf_img{
 	width: 30px;
-	vertical-align: middle;
+	vertical-align: middle; 
 }
 div#spf_container ul p span.spf_author{
 	color: #ffaa7f;
@@ -98,9 +107,11 @@ div#reply form input[type="button"]{
 div#nav{
 	width: 55px;
 	border: 1px solid #CCCCCC;
+	border-radius: 5px;
 	position: fixed;
 	right: 50px;
 	top: 30%;
+	font:18px/1.6em 方正舒体;
 }
 div#nav ul li{
 	padding: 5px;
@@ -115,6 +126,11 @@ div#nav li a{
 	display: block;
 	color: #550000;
 }
+#nav li a.top{
+	background:url(../img/top.png) no-repeat 10px 5px;
+	background-size: 27px;
+}
+
 div#nav li a:hover{
 	color: #fff;
 }
@@ -129,6 +145,7 @@ div.liuyan{
 	left: 0px;
 	background-color: rgba(0,0,0,0.4);
 	display: none;
+	font:16px/1.6em 方正舒体;
 }
 div.fabu{
 	border:1px solid #a8a2cb;
@@ -199,3 +216,100 @@ div.fabu form table td span:last-child{
 	font-size: 12px;
 }
 /* 发布留言样式结束 */
+/* 遮罩层 */
+#mask{
+	position:fixed;
+	top:0px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	background-color: #000;
+	opacity: 0.3;
+	display: none;
+	
+}
+/* 登录界面 */
+#login{
+	width:350px;
+	height:320px;
+	color:#333;
+	padding:40px;
+	background-color: #fff;
+	border:1px solid #a8a2cb;
+	border-radius: 7px;
+	position:fixed;
+	top:50%;
+	left:50%;
+	margin-left:-210px;
+	margin-top:-185px;
+	z-index:2;
+	display: none;
+	font:16px/1.6em 方正舒体;
+}
+.comtitle{
+	padding-bottom:10px;
+	top: 30px;
+}
+.comtitle span{
+	text-align:center;
+	color:#666666;
+	padding-left:151px;
+}
+.comtitle h1 img{
+	position:absolute;
+	width:35px;
+	top:65px;
+	left:145px;
+}
+.shuru{
+	margin-left:5px;
+	overflow: hidden;
+	margin-top:-10px;
+}
+.img6{
+	width:20px;
+	position:absolute;
+	top:145px;
+	left:60px;
+}
+img.img8{
+	width:20px;
+	position:absolute;
+	top:210px;
+	left:60px;
+}
+#login input[type=text],#login input[type=password]{
+	border-color:#d3d3d3;
+	width:270px;
+	height:38px;
+	border-radius: 15px;
+	background-color: #ffffff;
+	margin-top: 0px;
+	margin-bottom:20px;
+	padding-left:58px;
+	line-height:1.3ex;
+}
+#login input[type=text]:focus,#login input[type=password]:focus{
+	border-color:#f00;
+}
+#login input[type=submit]{
+	width:330px;
+	height:42px;
+	margin-top:10px;
+	line-height:42px;
+	font-size:20px;
+	border-radius: 15px;
+	border:none;
+	background-color: #3B78DD;
+	color:#ffffff;
+}
+/* 欢迎管理员登录 */
+div.name{
+	position: absolute;
+	top: 180px;
+	left: 300px;
+}
+div.name span{
+	font-size: 14px;
+	color: #f00;
+}

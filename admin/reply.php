@@ -4,7 +4,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$reply = @$_POST['reply'];
 	$messageId = @$_POST['messageId'];
 	// 发送SQL语句
-	$num = mysql_query("update message set reply='$reply' where messageId='$messageId'");
+	$num = mysql_query("update messagelz set reply='$reply' where messageId='$messageId'");
 	if($num){
 		echo '{"status":"10001","msg":"回复成功"}';
 	}else{
@@ -12,6 +12,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	}
 	mysql_close($conn);
 }else{
-	header("location:error.php");
+	header("location:../error.html");
 }
 ?>

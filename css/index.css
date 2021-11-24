@@ -1,6 +1,8 @@
-body,ul,p,h1,h2,h3,h4,h5,h6,input{
+body,a,ul,p,h1,h2,h3,h4,h5,h6,input{
 	margin:0px;
 	padding:0px;
+	text-decoration: none;
+	list-style: none;
 }
 body{
 	font:14px/1.5em 微软雅黑;
@@ -281,4 +283,19 @@ img.img2{
 	border:none;
 	background-color: #3B78DD;
 	color:#ffffff;
+}
+
+
+
+/* 用户回复设置 */
+li.reply2{
+	margin-left: 20px;
+	font-size: 14px;
+	color: #4ea315;
+}
+a.reply2{
+	float: right;
+	position: relative;
+	bottom: 25px;
+	right: 20px;
 }

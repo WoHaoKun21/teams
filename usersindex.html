@@ -57,16 +57,21 @@
                             +'<div class="addTime">'+value.addTime+'</div>'
                             +'<ul><li class="title">标题：'+value.title+'</li>'
                                 +'<li class="content">'+value.content+'</li>';
+								if(value.reply2){
+									str+='<li class="reply2">用户回复：'
+										+value.reply2+'</li>';
+								}
 								if(value.reply){
 									str+='<li class="reply">管理员回复：'+value.reply+'</li></ul>'
 									+'<div class="zan" data-id='+value.messageId+'></div>'
-									+'<div class="zannum">'+value.zan+'</div></div>';
+									+'<div class="zannum">'+value.zan+'</div>'
+									+'<a class="reply2" data-id='+value.messageId+' href="javascript:;">回复</a></div>';
 								}else{
 									str+='</ul><div class="zan" data-id='+value.messageId+'></div>'
-										+'<div class="zannum">'+value.zan+'</div></div>';
+										+'<div class="zannum">'+value.zan+'</div>'
+										+'<a class="reply2" data-id='+value.messageId+' href="javascript:;">回复</a></div>';
 								}
-                                // +'<li class="reply2">回复：'+value.reply2+'</li></ul>' //哪个用户回复
-                        })
+                         })
                         $("#main").html(str);
 						dianzan();//调用点赞功能
                     }else{
@@ -92,16 +97,21 @@
 							+'<div class="addTime">'+value.addTime+'</div>'
 							+'<ul><li class="title">标题：'+value.title+'</li>'
 							+'<li class="content">'+value.content+'</li>';
+							if(value.reply2){
+								str+='<li class="reply2">用户回复：'
+									+value.reply2+'</li>';
+							}
 							if(value.reply){
 								str+='<li class="reply">管理员回复：'+value.reply+'</li></ul>'
 								+'<div class="zan" data-id='+value.messageId+'></div>'
-								+'<div class="zannum">'+value.zan+'</div></div>';
+								+'<div class="zannum">'+value.zan+'</div>'
+								+'<a class="reply2" data-id='+value.messageId+' href="javascript:;">回复</a></div>';
 							}else{
 								str+='</ul><div class="zan" data-id='+value.messageId+'></div>'
-									+'<div class="zannum">'+value.zan+'</div></div>';
-								}
-								// +'<li class="reply2">回复：'+value.reply2+'</li></ul>' //哪个用户回复
-							})
+									+'<div class="zannum">'+value.zan+'</div>'
+									+'<a class="reply2" data-id='+value.messageId+' href="javascript:;">回复</a></div>';
+							}
+						})
 						$("#main").html(str);
 						$("#page .dangqian").text(page);
 						dianzan();//调用点赞功能
@@ -135,15 +145,20 @@
 								+'<div class="addTime">'+value.addTime+'</div>'
 								+'<ul><li class="title">标题：'+value.title+'</li>'
 									+'<li class="content">'+value.content+'</li>';
+									if(value.reply2){
+										str+='<li class="reply2">用户回复：'
+											+value.reply2+'</li>';
+									}
 									if(value.reply){
 										str+='<li class="reply">管理员回复：'+value.reply+'</li></ul>'
 										+'<div class="zan" data-id='+value.messageId+'></div>'
-										+'<div class="zannum">'+value.zan+'</div></div>';
+										+'<div class="zannum">'+value.zan+'</div>'
+										+'<a class="reply2" data-id='+value.messageId+' href="javascript:;">回复</a></div>';
 									}else{
 										str+='</ul><div class="zan" data-id='+value.messageId+'></div>'
-											+'<div class="zannum">'+value.zan+'</div></div>';
+											+'<div class="zannum">'+value.zan+'</div>'
+											+'<a class="reply2" data-id='+value.messageId+' href="javascript:;">回复</a></div>';
 									}
-									// +'<li class="reply2">回复：'+value.reply2+'</li></ul>' //哪个用户回复
 								})
 							$("#main").html(str);
 							$("#page .dangqian").text(page);
@@ -180,15 +195,20 @@
 								+'<div class="addTime">'+value.addTime+'</div>'
 								+'<ul><li class="title">标题：'+value.title+'</li>'
 									+'<li class="content">'+value.content+'</li>';
+									if(value.reply2){
+										str+='<li class="reply2">用户回复：'
+											+value.reply2+'</li>';
+									}
 									if(value.reply){
 										str+='<li class="reply">管理员回复：'+value.reply+'</li></ul>'
 										+'<div class="zan" data-id='+value.messageId+'></div>'
-										+'<div class="zannum">'+value.zan+'</div></div>';
+										+'<div class="zannum">'+value.zan+'</div>'
+										+'<a class="reply2" data-id='+value.messageId+' href="javascript:;">回复</a></div>';
 									}else{
 										str+='</ul><div class="zan" data-id='+value.messageId+'></div>'
-											+'<div class="zannum">'+value.zan+'</div></div>';
+											+'<div class="zannum">'+value.zan+'</div>'
+											+'<a class="reply2" data-id='+value.messageId+' href="javascript:;">回复</a></div>';
 									}
-									// +'<li class="reply2">回复：'+value.reply2+'</li></ul>' //哪个用户回复
 								})
 							$("#main").html(str);
 							$("#page .dangqian").text(page);
@@ -331,7 +351,32 @@
 				localStorage.removeItem("jwt");
 				location.href="index.html";
 			})
-        })
+			// 用户回复
+			$(document).on("click", "a.reply2",function(){
+				var x = prompt("请回复");
+				var _this = $(this).attr("data-id");
+				// 将获得的数据发送
+				if(x){
+					$.ajax({
+						url:"ureply2.php",
+						type:"POST",
+						dataType:"json",
+						data:{reply2:x,messageId:_this},
+						success:function(data){
+							console.log(data)
+							if(data.status == "10001"){
+								alert(data.msg);
+								location.href = "usersindex.html";
+							}else{
+								alert(data.msg);
+							}
+						}
+					});
+				}else{
+					alert("回复不能为空");
+				}
+			})
+		})
     </script>
 </head>
 <body>

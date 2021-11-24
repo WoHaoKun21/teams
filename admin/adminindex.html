@@ -14,7 +14,6 @@
 					type: "POST",
 					dataType: "json",
 					success: function(data) {
-						console.log(data);
 						if (data.status == "10001") {
 							data = data.data;
 							var str = "<div class='spf_banner'><img src='img/img.jpg'></div><ul>";
@@ -22,7 +21,7 @@
 							for (var i = 0 in data) {
 								str += "<li><p>用户[<span class='spf_author'>" + data[i].author + "</span>]" +
 									"<img src='img/face/" + data[i].face + "' class='spf_img'>" +
-									" 时间：<span class='spf_time'>" + data[i].upTime + "</span></p>"
+									" 时间：<span class='spf_time'>" + data[i].addTime + "</span></p>"
 
 									+
 									"<p class='spf_title'>标题：" + data[i].title + "</p>" +
@@ -41,19 +40,17 @@
 									" class='a2'>删除</a> | <a data-href=" + data[i].messageId +
 									" class='a3'>回复</a></div>" +
 									"<p class='spf_dz'>已获得<a data-href=" + data[i].messageId +
-									" class='dz'> " + data[i].dz + " </a>赞</p>"
+									" class='dz'> " + data[i].zan + " </a>赞</p>"
 							}
 							// 输出信息
 							$("#spf_container").html(str + "</ul>");
 						}
 					}
-				});	
-							
-							
-							
+				});			
 				var page = 1;
 				var pagecount = 1;
 				var num = 0;
+				$(".page").text(page);
 				// 获得总页数
 				$.ajax({
 					url:"data.php",
@@ -61,15 +58,16 @@
 					success:function(data){
 						num = data;
 						pagecount = Math.ceil(num/5);
+						$(".pagecount").text(pagecount);
 					}
 				});
-				
 				// 点击进入下一页
 				$("#downPage").click(function() {
 					if(page>pagecount){
 						page = pagecount;
 					}else{
 						page = page+1;
+						$(".page").text(page);
 						if(page<=pagecount){
 							$.ajax({
 								url: "admindata.php?action=login&page=" + page,
@@ -87,7 +85,7 @@
 											str += "<li><p>用户[<span class='spf_author'>" + data[i].author +
 												"</span>]" +
 												"<img src='img/face/" + data[i].face + "' class='spf_img'>" +
-												" 时间：<span class='spf_time'>" + data[i].upTime +
+												" 时间：<span class='spf_time'>" + data[i].addTime +
 												"</span></p>"
 							
 												+
@@ -105,10 +103,10 @@
 													.messageId + " class='a1'>未审核</a> |";
 											}
 											str += " <a data-href=" + data[i].messageId +
-												" class='a2'>删除</a> | <a data-href=" + data[i].messageId +
-												" class='a3'>回复</a></div>" +
+												" <a class='a2'>删除</a> | <a data-href=" + data[i].messageId +
+												" <a class='a3'>回复</a></div>" +
 												"<p class='spf_dz'>已获得<a data-href=" + data[i].messageId +
-												" class='dz'> " + data[i].dz + " </a>赞</p>"
+												" class='dz'> " + data[i].zan + " </a>赞</p>"
 										}
 										// 输出信息
 										$("#spf_container").html(str + "</ul>");
@@ -124,6 +122,7 @@
 						page = 1;
 					}else{
 						page = page-1;
+						$(".page").text(page);
 						if(page<=pagecount){
 							$.ajax({
 								url: "admindata.php?action=login&page=" + page,
@@ -141,7 +140,7 @@
 											str += "<li><p>用户[<span class='spf_author'>" + data[i].author +
 												"</span>]" +
 												"<img src='img/face/" + data[i].face + "' class='spf_img'>" +
-												" 时间：<span class='spf_time'>" + data[i].upTime +
+												" 时间：<span class='spf_time'>" + data[i].addTime +
 												"</span></p>"
 							
 												+
@@ -162,7 +161,7 @@
 												" class='a2'>删除</a> | <a data-href=" + data[i].messageId +
 												" class='a3'>回复</a></div>" +
 												"<p class='spf_dz'>已获得<a data-href=" + data[i].messageId +
-												" class='dz'> " + data[i].dz + " </a>赞</p>"
+												" class='dz'> " + data[i].zan + " </a>赞</p>"
 										}
 										// 输出信息
 										$("#spf_container").html(str + "</ul>");
@@ -173,11 +172,6 @@
 					}
 					
 				});
-
-
-
-
-
 				// 点赞事件
 				$(document).on("click", "a.dz", function() {
 					var _this = $(this);
@@ -295,13 +289,11 @@
 					}
 				});
 				// 为空报错——————结束
-				
 				// 清除提示——————开始
 				$("#fbauthor").focus(function(){$("#fbauthortips").text("*");});
 				$("#fbtitle").focus(function(){$("#fbtitletips").text("*");});
 				$("#fbcontent").focus(function(){$("#fbcontenttips").text("*");});
 				// 清除提示——————结束
-				
 				// 发送数据————开始
 				$("#fabubutton").click(function(){
 					$("#liuyan").hide();
@@ -330,10 +322,98 @@
 					$("div.liuyan").hide();
 				})
 		// 发表留言结束
+				//到顶部
+				$("#nav a:last").click(function(){
+					// window.scrollTo(0,0);
+					$("html").animate({"scrollTop":"0px"},200);
+				})
+				//登录页面
+					//显示页面
+				$("#nav li a:eq(1)").click(function(){
+					$("#mask").show();
+					$("#login").show();
+					//关闭页面
+					$("#login .close").click(function(){
+						$("#mask").hide();
+						$("#login").hide();
+					})
+					//登录操作
+					$("#denglubutton").click(function(){
+						if($("#userName").val() && $("#password").val()){ //判断是否为空
+						//不为空发送ajax
+								$.ajax({
+									url:"check.php?action=login",
+									type:"POST",
+									data:{userName:$("#userName").val(),password:$("#password").val()},
+									dataType:"json",
+									success:function(data){
+										if(data.result=="success"){
+											localStorage.setItem("jwt",data.jwt);
+												location.href="../usersindex.html";
+										}else{
+											alert(data.msg);
+											// alert("a");
+										}
+									}
+								})
+							}else{ //为空报错
+								alert("用户名或密码不能为空");
+							}
+						})
+					});
+		
+		
+		// 欢迎管理员登录
+				var jwt = localStorage.getItem("jwt");
+				console.log(jwt);
+				if(jwt){
+					$.ajax({
+						url:"../check.php",
+						type:"POST",
+						headers:{"token":jwt},
+						dataType:"json",
+						success:function(data){
+							if(data.result == "success"){
+								$("#namegl").text(data.info.data.userName);
+							}
+						}
+					});
+				}
+		// 欢迎管理员结束
+				$("#nav a:eq(3)").click(function(){
+					var jwt=localStorage.getItem("jwt");
+					console.log(jwt)
+					if(!!jwt){
+						$.ajax({
+							url:"check.php",
+							type:"GET",
+							cache:false,
+							headers:{"token":localStorage.getItem("jwt")},
+							dataType:"json",
+							success:function(data){
+								if(data.result=="success"){ //鉴权成功，取数据
+									location.href="../usersindex.html";
+								}else{
+									alert(data.msg);
+								}
+							}
+						});
+					}else{
+						alert("请登录");
+					}
+				});
+
+		// 安全退出
+				$("#loginout").click(function(){
+					// 清除浏览器的jwt
+					localStorage.removeItem("jwt");
+					location.href = "../index.html";
+				})
 			})
 		</script>
 	</head>
 	<body>
+		<div class="name">欢迎管理员<span id="namegl"></span>登录 | <a href="javascript:;" id="loginout">注销</a></div>
 		<div id="reply">
 			<form>
 				<textarea rows="5" cols="25" class="reply"></textarea><br>
@@ -345,7 +425,7 @@
 			<ul>
 				<li><a href="javascript:;">发表 留言</a></li>
 				<li><a href="javascript:;">我要 登录</a></li>
-				<li><a href="javascript:;">管理 页面</a></li>
+				<li><a href="../index.html">返回 游客</a></li>
 				<li><a href="javascript:;">用户 页面</a></li>
 				<li><a href="javascript:;">请求 帮助</a></li>
 				<li><a href="javascript:;">联系 我们</a></li>
@@ -401,7 +481,29 @@
 		</div>
 		<footer>
 			<a data-href="1" id="onPage">上一页</a> |
-			<a data-href="1" id="downPage">下一页</a>
+			<a data-href="1" id="downPage">下一页</a> |
+			<button type="button">
+				共<span class="page"></span> /
+				<span class="pagecount"></span>页
+			</button>
 		</footer>
+		
+		<!--遮罩层-->
+				<div id="mask"></div> 
+		<!-- 登录页面 -->
+				<div id="login">
+					<div class="close"><img src="img/关闭.png" width="15"></div>
+					<div class="comtitle">
+						<h1><img src="img/computer.png"><span>登  录</span></h1>
+					</div> 
+					<br>
+					
+					<div class="shuru">
+						<img class="img6" src="img/用户名.png">
+						<input type="text" id="userName" placeholder="请输入用户名"><br>
+						<img class="img8" src="img/密码.png">
+						<input type="password" id="password" placeholder="请输入密码"><br>
+						<input type="submit" name="submit" id="denglubutton" value="登  录">
+					</div>
 	</body>
 </html>

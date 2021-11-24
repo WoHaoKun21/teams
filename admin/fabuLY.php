@@ -5,7 +5,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$face = @$_POST['face'];
 	$title = @$_POST['title'];
 	$content = @$_POST['content'];
-	$num = mysql_query("insert into message(author,title,content,face,upTime) values('$author','$title','$content','$face',now())");
+	$num = mysql_query("insert into messagelz(author,title,content,face,addTime) values('$author','$title','$content','$face',now())");
 	if($num){
 		echo '{"status":"10001","msg":"留言发布成功,等待管理员审核","author":"'.$author.$face.$title.$content.'"}';
 	}else{
@@ -13,6 +13,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	}
 	mysql_close($conn);
 }else{
-	header("location:error.php");
+	header("location:../error.html");
 }
 ?>

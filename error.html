@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title></title>
+	<style type="text/css">
+		#imgs{
+			width: 100%;
+		}
+		h3{
+			position: fixed;
+			top: 45%;
+			left: 45%;
+		}
+		span{
+			color: #f00;
+		}
+	</style>
+</head>
+<body>
+	<h3>系统将在<span id="miao">3</span>秒后跳转</h3>
+	<img src="img/error.jpg" id="imgs">
+</body>
+<script>
+	var miao = document.getElementById("miao");
+	var i=2;
+	setInterval(function(){
+		miao.innerText = i--;
+		if(i<0){
+			location.href = "index.html";
+		}
+	},1000);
+</script>
+</html>

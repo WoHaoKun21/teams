@@ -9,7 +9,7 @@ if(empty($page)){
 if($action == "login"){
 	if($_SERVER['REQUEST_METHOD']=='POST'){
 		include("conn.php");
-		$result = mysql_query("select * from message order by upTime desc");// 获取数据
+		$result = mysql_query("select * from messagelz order by addTime desc");// 获取数据
 		$num = mysql_num_rows($result);// 获取条数
 		$pagenum = ceil($num/5);// 通过条例上取整获得页数
 		if($page>$pagenum){// 如果当前页数大于总页数，将数值初始化

@@ -44,6 +44,10 @@
                             +'<div class="addTime">'+value.addTime+'</div>'
                             +'<ul><li class="title">标题：'+value.title+'</li>'
                                 +'<li class="content">'+value.content+'</li>';
+								if(value.reply2){
+									str+='<li class="reply2">用户 回复：'
+										+value.reply2+'</li>';
+								}
 								if(value.reply){
 									str+='<li class="reply">管理员回复：'+value.reply+'</li></ul>'
 									+'<div class="zan" data-id='+value.messageId+'></div>'
@@ -79,6 +83,10 @@
 							+'<div class="addTime">'+value.addTime+'</div>'
 							+'<ul><li class="title">标题：'+value.title+'</li>'
 							+'<li class="content">'+value.content+'</li>';
+							if(value.reply2){
+								str+='<li class="reply2">用户回复：'
+									+value.reply2+'</li>';
+							}
 							if(value.reply){
 								str+='<li class="reply">管理员回复：'+value.reply+'</li></ul>'
 								+'<div class="zan" data-id='+value.messageId+'></div>'
@@ -122,6 +130,10 @@
 								+'<div class="addTime">'+value.addTime+'</div>'
 								+'<ul><li class="title">标题：'+value.title+'</li>'
 									+'<li class="content">'+value.content+'</li>';
+									if(value.reply2){
+										str+='<li class="reply2">用户回复：'
+											+value.reply2+'</li>';
+									}
 									if(value.reply){
 										str+='<li class="reply">管理员回复：'+value.reply+'</li></ul>'
 										+'<div class="zan" data-id='+value.messageId+'></div>'
@@ -167,6 +179,10 @@
 								+'<div class="addTime">'+value.addTime+'</div>'
 								+'<ul><li class="title">标题：'+value.title+'</li>'
 									+'<li class="content">'+value.content+'</li>';
+									if(value.reply2){
+										str+='<li class="reply2">用户回复：'
+											+value.reply2+'</li>';
+									}
 									if(value.reply){
 										str+='<li class="reply">管理员回复：'+value.reply+'</li></ul>'
 										+'<div class="zan" data-id='+value.messageId+'></div>'
@@ -223,7 +239,7 @@
 					$.ajax({
 						url:"leavemessage.php",
 						type:"POST",
-						data:{author:$("#fbauthor").val(),title:$("#fbtitle").val(),content:$("#fbcontent").val,face:$("#face").val()},
+						data:{author:$("#fbauthor").val(),title:$("#fbtitle").val(),content:$("#fbcontent").val(),face:$("#face").val()},
 						dataType:"json",
 						success:function(data){
 							if(data.status=="10001"){
@@ -308,6 +324,7 @@
 			//在jwt有效时间内，可以不用登录直接进入管理页面
 			$("#nav a:eq(2)").click(function(){
 				var jwt=localStorage.getItem("jwt");
+				console.log(jwt);
 				if(!!jwt){
 					$.ajax({
 						url:"check.php",
@@ -316,6 +333,7 @@
 						headers:{"token":localStorage.getItem("jwt")},
 						dataType:"json",
 						success:function(data){
+							console.log(data);
 							if(data.result=="success"){ //鉴权成功，取数据
 								location.href="admin/adminindex.html";
 							}else{
@@ -331,6 +349,7 @@
 			//在jwt有效时间内，可以不用登录直接进入用户页面
 			$("#nav a:eq(3)").click(function(){
 				var jwt=localStorage.getItem("jwt");
+				console.log(jwt)
 				if(!!jwt){
 					$.ajax({
 						url:"check.php",
